@@ -1,0 +1,14 @@
+- name: edit <deployment>_administrators security group to open ssh for the Ansible Tower host
+  ec2_group:
+    name: mao_administrators
+    #description: every node is added in this security group by dsh, for allowing adminstrator access
+    #vpc_id: vpc-79af741c
+    #region: us-west-2
+    #aws_secret_key: SECRET
+    #aws_access_key: ACCESS
+    ansible_tower_sg: sg-74f6d711
+    rules:
+      - proto: ssh
+        from_port: 22
+        to_port: 22
+        group_id: "{{ ansible_tower_sg }}"
