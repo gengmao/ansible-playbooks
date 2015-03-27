@@ -1,24 +1,21 @@
 ---
-- name: administrators security group to open ssh for the Ansible Tower host
+- name: open ssh inbound from the Ansible Tower host to mao_administrators group
   hosts: localhost
   connection: local
+  gather_facts: no
   vars:
     ansible_tower_sg: sg-74f6d711
+    allowed_ip: 52.10.45.129/32
   tasks:   
-    local_action:
-      module: ec2_group
-      name: mao_administrators
-      description: every node is added in this security group by dsh, for allowing adminstrator access
-      #vpc_id: vpc-79af741c
-      #region: us-west-2
-      #aws_secret_key: SECRET
-      #aws_access_key: ACCESS
-      rules:
-        - proto: ssh
-          from_port: 22
-          to_port: 22
-          group_id: "{{ ansible_tower_sg }}"
-        - proto: ssh
-          from_port: 22
-          to_port: 22
-          cidr_ip: 10.0.0.0/8
+    - local_action:
+        module: ec2_group
+        name: mao_administrators
+        description: allowing adminstrator access
+        #vpc_id: vpc-79af741c
+        region: us-west-2
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            group_id: "{{ ansible_tower_sg }}"
+
