@@ -1,0 +1,4 @@
+# The global variable file
+
+# The security group id of the ansible tower host
+ansible_tower_sg: sg-74f6d711
