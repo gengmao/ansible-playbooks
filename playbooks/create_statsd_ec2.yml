@@ -1,0 +1,59 @@
+---
+- name: Create an statsd server on EC2
+  hosts: localhost
+  connection: local
+  gather_facts: False 
+
+  tasks:
+  - name: Create securtity group for statsd host
+    ec2_group:
+      name: mao_statsd_sg
+      description: security group for statsd host
+      region: us-west-2
+      rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 2003
+        to_port: 2003
+        cidr_ip: 0.0.0.0/0
+      - proto: udp
+        from_port: 8125
+        to_port: 8125
+        cidr_ip: 0.0.0.0/0
+      rules_egress:
+      - proto: all
+        from_port: all
+        to_port: all
+        cidr_ip: 0.0.0.0/0
+
+  - name: Create statsd host
+    ec2:
+      region: us-west-2
+      key_name: mao-default-JCYA
+      instance_type: c4.xlarge
+      image: ami-29ebb519 # Ubuntu 14.04 TLS HVM 
+      wait: yes
+      group: mao_statsd_sg
+      instance_tags:
+        Name: mao-statsd
+      vpc_subnet_id: subnet-08b0607f
+      assign_public_ip: yes
+      volumes:
+        - device_name: /dev/sdb
+          device_type: gp2
+          volume_size: 100
+          delete_on_termination: true
+    register: statsd 
+  - debug: var=statsd
+ 
+  - name: Wait for SSH to come up
+    local_action: wait_for host={{ item.public_dns_name }} port=22 delay=60 timeout=320 state=started
+    with_items: statsd.instances
+  
