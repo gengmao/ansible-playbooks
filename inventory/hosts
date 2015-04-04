@@ -1,2 +1,5 @@
+[all]
+localhost
+
 [all:vars]
 var2=variable_in_hosts
