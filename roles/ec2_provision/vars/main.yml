@@ -22,3 +22,28 @@ user_data: |
              sleep 60
           done 
           exit 1
+
+rules: 
+- proto: tcp
+  from_port: 22
+  to_port: 22
+  cidr_ip: 0.0.0.0/0
+- proto: tcp
+  from_port: 80
+  to_port: 80
+  cidr_ip: 0.0.0.0/0
+- proto: tcp
+  from_port: 2003
+  to_port: 2003
+  cidr_ip: 0.0.0.0/0
+- proto: udp
+  from_port: 8125
+  to_port: 8125
+  cidr_ip: 0.0.0.0/0
+
+rules_egress: 
+- proto: all
+  from_port: all
+  to_port: all
+  cidr_ip: 0.0.0.0/0
+  
