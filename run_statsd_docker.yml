@@ -1,0 +1,5 @@
+---
+- hosts: security_group_mao_statsd_sg
+  sudo: yes
+  roles:
+  - run_docker

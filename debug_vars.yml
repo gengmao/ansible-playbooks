@@ -1,0 +1,8 @@
+---
+- hosts: "{{hosts}}"
+  tasks: 
+  - debug: msg="{{var1}}"
+  - debug: msg="{{var2}}"
+  - debug: msg="{{var3}}"
+    when: hosts == "security_group_mao_statsd_sg"
+  - debug: msg="{{user_data}}"

@@ -8,13 +8,9 @@ export AWS_SECRET_ACCESS_KEY='abc123'
 ```
 Then clone this repo, and execute the command inside it:  
 ```
-ansible-playbook -i ec2.py [option] playbook.yml
+ansible-playbook -i inventory [option] playbook.yml
 ```
 ## Change configurations of your AWS dynamic inventory ##
-You can edit the _ec2.ini_, which defined the regions to check, what dns names or ip addresses to be used, rules to group ec2 nodes, and so on. You can move the _ec2.ini_ to other places if you want, just need to define this environment variable: 
-```
-export EC2_INI_PATH=/path/to/my_ec2.ini
-```
-If you move the _ec2.py_, you will need to use the "-i" option in _ansible-playbook_ command line to point to its correct path. 
+You can edit the _ec2.ini_, which defined the regions to check, what dns names or ip addresses to be used, rules to group ec2 nodes, and so on. 
 
 

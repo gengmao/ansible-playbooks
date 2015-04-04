@@ -1,0 +1,7 @@
+---
+- name: Create an statsd server on EC2
+  hosts: localhost
+  connection: local
+  gather_facts: False 
+  roles:
+  - ec2_provision
