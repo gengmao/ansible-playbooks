@@ -2,6 +2,7 @@
 # tasks file for run_docker
 - name: check if docker exist
   shell: command -v docker || command -v lxc-docker
+  changed_when: False
   register: docker_exist
 
 - name: install docker 
@@ -10,6 +11,7 @@
 
 - name: check if the graphite-statsd container is running 
   shell: docker ps | grep graphite-statsd
+  changed_when: False
   register: statsd_running 
 
 - name: Run docker

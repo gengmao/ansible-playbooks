@@ -3,5 +3,43 @@
   hosts: localhost
   connection: local
   gather_facts: False 
-  roles:
-  - ec2_provision
+
+  tasks:
+    - include_vars: ec2_vars.yml
+
+    - name: Create securtity group for statsd host
+      ec2_group:
+        name: "{{ security_group }}" 
+        description: security group for statsd host
+        region: "{{ region }}"
+        rules: "{{ rules }}"
+        rules_egress: "{{ rules_egress }}"
+        state: 'present'
+
+    - name: Empty user_data if there is no tower to callback
+      set_fact:
+        user_data : ""
+      when: tower_address is not defined
+    
+    - name: Create statsd host
+      ec2:
+        region: "{{ region }}"
+        key_name: mao-default-JCYA
+        instance_type: c4.xlarge
+        image: ami-29ebb519 # Ubuntu 14.04 TLS HVM 
+        wait: yes
+        group: "{{ security_group }}"
+        instance_tags:
+          Name: "{{ tag_name }}"
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        assign_public_ip: yes
+        volumes:
+          - device_name: /dev/sdb
+            device_type: gp2
+            volume_size: 100
+            delete_on_termination: true
+        user_data: "{{ user_data }}" 
+        exact_count: 1
+        count_tag:
+          Name: "{{ tag_name }}"
+    

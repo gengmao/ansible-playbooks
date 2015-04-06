@@ -1,5 +1,8 @@
 ---
-# vars file for ec2_provision
+security_group: mao_statsd_sg
+region: us-west-2
+tag_name: mao-statsd
+vpc_subnet_id: subnet-08b0607f
 user_data: |
           #!/bin/bash
           exec > /tmp/autoscale.log 2>&1
