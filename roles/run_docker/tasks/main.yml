@@ -1,12 +1,18 @@
 ---
 # tasks file for run_docker
+- name: check if docker exist
+  shell: command -v docker || command -v lxc-docker
+  register: docker_exist
+
 - name: install docker 
   shell: curl https://get.docker.com/ | sh
-  register: get_docker 
-- debug: var=get_docker.stdout_lines 
+  when: not docker_exist
+
+- name: check if the graphite-statsd container is running 
+  shell: docker ps | grep graphite-statsd
+  register: statsd_running 
 
 - name: Run docker
   command: docker run -d -name graphite -v /ebs_vol/graphite/storage:/opt/graphite/storage -v /ebs_vol/log:/var/log -p 80:80 -p 2003:2003 -p 8125:8125/udp gengmao/graphite-statsd
   register: run_docker
-- debug: var=run_docker.stdout_lines
-
+  when: not statsd_running
