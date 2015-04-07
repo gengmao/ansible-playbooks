@@ -3,18 +3,20 @@
 - name: check if docker exist
   shell: command -v docker || command -v lxc-docker
   changed_when: False
+  ignore_errors: True
   register: docker_exist
 
 - name: install docker 
   shell: curl https://get.docker.com/ | sh
-  when: not docker_exist
+  when: docker_exist.stdout == ""
 
 - name: check if the graphite-statsd container is running 
   shell: docker ps | grep graphite-statsd
   changed_when: False
+  ignore_errors: True
   register: statsd_running 
 
 - name: Run docker
   command: docker run -d -name graphite -v /ebs_vol/graphite/storage:/opt/graphite/storage -v /ebs_vol/log:/var/log -p 80:80 -p 2003:2003 -p 8125:8125/udp gengmao/graphite-statsd
   register: run_docker
-  when: not statsd_running
+  when: statsd_running.stdout == ""
