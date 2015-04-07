@@ -12,6 +12,8 @@
 
 - name: install pip # see http://askubuntu.com/questions/561377/pip-wont-run-throws-errors-instead
   shell: wget -N https://bootstrap.pypa.io/get-pip.py && python get-pip.py
+  register: pip
+  changed_when: "'already up-to-date' not in pip.stdout"
 
 - name: Upgrade latest pip, setuptools, and docker-py with pip
   pip: 
