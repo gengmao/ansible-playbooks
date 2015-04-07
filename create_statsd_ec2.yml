@@ -15,11 +15,6 @@
         rules: "{{ statsd_rules }}"
         rules_egress: "{{ statsd_rules_egress }}"
         state: 'present'
-
-    - name: Empty user_data if there is no tower to callback
-      set_fact:
-        user_data : ""
-      when: tower_address is not defined
     
     - name: Create statsd host
       ec2:
