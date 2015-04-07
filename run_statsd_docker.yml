@@ -1,5 +1,31 @@
 ---
 - hosts: security_group_mao_statsd_sg
   sudo: yes
+
   roles:
-  - run_docker
+  - docker
+
+  tasks:
+  - name: run graphite-statsd container
+    docker: 
+      name: mao-statsd
+      image: gengmao/graphite-statsd
+      state: running
+      volumes: 
+        - /ebs_vol/graphite/storage:/opt/graphite/storage:rw
+        - /ebs_vol/log:/var/log:rw
+      ports:
+        - 80:80
+        - 2003:2003
+        - 8125:8125/udp
+    
+  #- name: check if the graphite-statsd container is running 
+  #  shell: docker ps | grep graphite-statsd
+  #  changed_when: False
+  #  ignore_errors: True
+  #  register: statsd_running 
+  #
+  #- name: Run docker
+  #  command: docker run -d -name graphite -v /ebs_vol/graphite/storage:/opt/graphite/storage -v /ebs_vol/log:/var/log -p 80:80 -p 2003:2003 -p 8125:8125/udp gengmao/graphite-statsd
+  #  register: run_docker
+  #  when: statsd_running.stdout == ""
