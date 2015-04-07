@@ -10,15 +10,8 @@
   shell: curl https://get.docker.com/ | sh
   when: docker_exist.stdout == ""
 
-- name: check if pip works correctly
-  shell: pip | grep ImportError
-  changed_when: False
-  ignore_errors: True
-  register: pip
-
 - name: install pip # see http://askubuntu.com/questions/561377/pip-wont-run-throws-errors-instead
   shell: wget -N https://bootstrap.pypa.io/get-pip.py && python get-pip.py
-  when: pip.stdout != ""
 
 - name: Upgrade latest pip, setuptools, and docker-py with pip
   pip: 
