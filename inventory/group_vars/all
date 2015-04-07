@@ -1,7 +1,6 @@
 ---
 var1: variable_in_group_vars_all
 region: us-west-2
-ami_id: ami-29ebb519 # Ubuntu 14.04 TLS HVM 
 vpc_subnet_id: subnet-08b0607f
 key_name: mao-default-JCYA
 

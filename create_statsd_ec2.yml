@@ -9,7 +9,7 @@
     statsd_security_group: mao_statsd_sg
     statsd_security_group_desc: security group for statsd server   
     statsd_instance_type: c4.xlarge 
-    
+    statsd_ami_id: ami-29ebb519 # Ubuntu 14.04 TLS HVM
     statsd_ebs_device: /dev/xvdb
  
     statsd_volumes:
@@ -90,7 +90,7 @@
         region: "{{ region }}"
         key_name: "{{ key_name }}"
         instance_type: "{{ statsd_instance_type }}"
-        image: "{{ ami_id }}" 
+        image: "{{ statsd_ami_id }}"
         wait: yes
         group: "{{ statsd_security_group }}"
         instance_tags:
