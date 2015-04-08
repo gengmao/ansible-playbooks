@@ -101,5 +101,5 @@
         user_data: "{{ statsd_user_data }}" 
         exact_count: 1
         count_tag:
-          Name: "{{ statsd_tag_name }}"
+          Name: "{{ statsd_instance_name }}"
     
