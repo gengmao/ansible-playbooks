@@ -5,7 +5,7 @@
   gather_facts: False 
 
   vars:
-    statsd_tag_name: mao-statsd
+    statsd_instance_name: mao-statsd
     statsd_security_group: mao_statsd_sg
     statsd_security_group_desc: security group for statsd server   
     statsd_instance_type: c4.xlarge 
@@ -94,7 +94,7 @@
         wait: yes
         group: "{{ statsd_security_group }}"
         instance_tags:
-          Name: "{{ statsd_tag_name }}"
+          Name: "{{ statsd_instance_name }}"
         vpc_subnet_id: "{{ vpc_subnet_id }}"
         assign_public_ip: yes
         volumes: "{{ statsd_volumes }}"
