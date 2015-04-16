@@ -4,3 +4,8 @@
   tasks: 
   - debug: msg="{{var1}}"
   - debug: msg="{{var2}}"
+
+- hosts: security_group_mao_statsd_sg
+  tasks:
+  - debug: msg="{{var3}}"
+
